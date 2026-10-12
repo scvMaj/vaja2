@@ -1,16 +1,30 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { useEffect, useRef } from 'react';
+import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import ImageViewer from '@/components/image-viewer';
 
-const PlaceholderImage = require('@/assets/images/background-image.png');
+const slika = require('@/assets/images/background-image.png');
 
 export default function Index() {
+  const imageOpacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(imageOpacity, {
+      toValue: 1,
+      duration: 1200,
+      useNativeDriver: true,
+    }).start();
+  }, [imageOpacity]);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Košarka</Text>
 
-        <ImageViewer imgSource={PlaceholderImage} />
+        <Animated.View style={{ opacity: imageOpacity }}>
+          <ImageViewer imgSource={slika} />
+        </Animated.View>
 
         <Text style={styles.description}>
           Dobrodošel v moji aplikaciji o košarki.
@@ -22,23 +36,14 @@ export default function Index() {
         </Text>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Kaj lahko najdeš v aplikaciji?</Text>
-
-          <Text style={styles.item}>
-            • osnovne informacije
+          <Text style={styles.sectionTitle}>
+            Kaj lahko najdeš v aplikaciji?
           </Text>
 
-          <Text style={styles.item}>
-            • osnovna pravila
-          </Text>
-
-          <Text style={styles.item}>
-            • igralne pozicije
-          </Text>
-
-          <Text style={styles.item}>
-            • zanimivosti
-          </Text>
+          <Text style={styles.item}>• osnovne informacije</Text>
+          <Text style={styles.item}>• osnovna pravila</Text>
+          <Text style={styles.item}>• igralne pozicije</Text>
+          <Text style={styles.item}>• zanimivosti</Text>
         </View>
 
         <Text style={styles.bottomText}>
